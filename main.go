@@ -18,7 +18,7 @@ func main() {
 				break
 			} else if ev.Key == termbox.KeySpace {
 				for _, stock := range desiredStocks {
-					stockInfo, err := GetStockInfo(stock)
+					stockInfo, err := NewStockInfo(stock)
 					if err != nil {
 						panic(err)
 					}

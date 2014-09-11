@@ -7,39 +7,20 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
 
 type StockInfo struct {
+	Symbol               string
 	Name                 string
 	LastTradePrice       float64
 	OpeningPrice         float64
 	PreviousClosingPrice float64
 }
 
-/* Creates a new StockInfo from an array of values that are ordered the same
- * as the fields of the StockInfo struct. */
-func NewStockInfo(record []string) (*StockInfo, error) {
-	floats := make([]float64, len(record)-1)
-
-	var err error
-	for i := 1; i <= len(record)-1; i++ {
-		if record[i] == "N/A" {
-			floats[i-1] = -1
-			continue
-		}
-
-		if floats[i-1], err = strconv.ParseFloat(record[i], 64); err != nil {
-			errstr := fmt.Sprintf("Couldn't parse float in CVS: %+v", record)
-			return &StockInfo{}, errors.New(errstr)
-		}
-	}
-
-	return &StockInfo{record[0], floats[0], floats[1], floats[2]}, nil
-}
-
-func GetStockInfo(symbol string) (*StockInfo, error) {
+func NewStockInfo(symbol string) (*StockInfo, error) {
 	var urlTmpl = "http://download.finance.yahoo.com/d/quotes.csv?s=%s&f=nl1op"
 	url := fmt.Sprintf(urlTmpl, symbol)
 
@@ -54,5 +35,33 @@ func GetStockInfo(symbol string) (*StockInfo, error) {
 		return &StockInfo{}, errors.New("Couldn't read CVS for " + symbol)
 	}
 
-	return NewStockInfo(records[0])
+	record := records[0]
+	floats := make([]float64, len(record)-1)
+
+	for i := 1; i <= len(record)-1; i++ {
+		if record[i] == "N/A" {
+			floats[i-1] = -1
+			continue
+		}
+
+		if floats[i-1], err = strconv.ParseFloat(record[i], 64); err != nil {
+			errstr := fmt.Sprintf("Couldn't parse float in CVS: %+v", record)
+			return &StockInfo{}, errors.New(errstr)
+		}
+	}
+
+	return &StockInfo{symbol, record[0], floats[0], floats[1], floats[2]}, nil
+}
+
+// Causes stock info to be re-fetched and the underlying structure updated
+func (me *StockInfo) Update() {
+	duplicate, err := NewStockInfo(me.Symbol)
+	if err != nil {
+		log.Println("Couldn't reload existing stock " + me.Symbol)
+	}
+
+	me.Name = duplicate.Name
+	me.LastTradePrice = duplicate.LastTradePrice
+	me.OpeningPrice = duplicate.OpeningPrice
+	me.PreviousClosingPrice = duplicate.PreviousClosingPrice
 }

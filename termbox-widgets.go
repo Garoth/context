@@ -11,6 +11,7 @@ import (
 type Widget interface {
 	Size() (int, int)
 	Draw(x, y int)
+	Update()
 }
 
 /* Sleeps a bit, then calls termbox.Flush */
@@ -88,4 +89,8 @@ func (me *StockInfoWidget) Draw(x, y int) {
 	drawBox(x, y, width, height)
 	drawText(x+2, y+1, me.StockInfo.Name)
 	drawText(x+2, y+2, openPriceStr)
+}
+
+func (me *StockInfoWidget) Update() {
+	me.StockInfo.Update()
 }
