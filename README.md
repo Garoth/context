@@ -1,12 +1,10 @@
-context
-=======
+Personal Terminal Widget Library
+--------------------------------
 
-Terminal UI dashboard for my workflow.
+Currently only renders stock info from Yahoo in a simple way. Stock widgets
+automatically update periodically.
 
-I tend to use tiled terminals (using iTerm2 or a tiling window manager), and I
-can afford some of my screen realestate to be used as a persistent
-dashboard for stuff I care about. Currently, this just has some stock
-info.
+<img src="readme-assets/preview.jpg">
 
-The project uses Termbox-Go to render some basic widgets that will periodically
-update themselves to show up to date content.
+Context is written exclusively in Go and has zero non-Go dependencies.
+Shoutout to the excellent Termbox-Go project: github.com/nsf/termbox-go
