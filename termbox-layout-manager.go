@@ -28,6 +28,12 @@ func NewInlineBlockLayout() *InlineBlockLayout {
 	return me
 }
 
+func (me *InlineBlockLayout) Clear() {
+	me.Widgets = []Widget{}
+	termbox.Clear(termbox.ColorWhite, termbox.ColorDefault)
+	termbox.Flush()
+}
+
 func (me *InlineBlockLayout) Add(widget Widget) {
 	// FIXME there's some bug with widget heights and new line alignment
 	pageWidth, _ := termbox.Size()
