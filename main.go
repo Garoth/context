@@ -23,11 +23,18 @@ func refreshWidgets(desiredStocks []string, layoutManager *InlineBlockLayout) {
 	}
 }
 
+func drawWelcomeText() {
+	drawText(1, 1, "Thanks for using Context!")
+	drawText(1, 2, "Press SPACE to load widgets.")
+}
+
 func main() {
 	if err := termbox.Init(); err != nil {
 		panic(err)
 	}
 	defer termbox.Close()
+
+	drawWelcomeText()
 
 	layoutManager := NewInlineBlockLayout()
 	desiredStocks := []string{"BTCUSD=X", "TSLA", "GOOG", "AAPL"}
