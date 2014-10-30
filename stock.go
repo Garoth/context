@@ -7,7 +7,6 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -57,7 +56,7 @@ func NewStockInfo(symbol string) (*StockInfo, error) {
 func (me *StockInfo) Update() {
 	duplicate, err := NewStockInfo(me.Symbol)
 	if err != nil {
-		log.Println("Couldn't reload existing stock " + me.Symbol)
+		drawDebugText("Couldn't reload existing stock " + me.Symbol)
 	}
 
 	me.Name = duplicate.Name

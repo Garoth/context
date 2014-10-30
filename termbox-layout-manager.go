@@ -13,12 +13,13 @@ type InlineBlockLayout struct {
 
 func NewInlineBlockLayout() *InlineBlockLayout {
 	me := &InlineBlockLayout{make([]Widget, 0)}
+	refreshTimeout := time.Second * 30
 
 	go func() {
 		for {
-			time.Sleep(time.Second * 30)
+			time.Sleep(refreshTimeout)
 			for _, widget := range me.Widgets {
-				time.Sleep(time.Millisecond * 100)
+				time.Sleep(time.Millisecond * 50)
 				widget.Update()
 			}
 			me.Redraw()
