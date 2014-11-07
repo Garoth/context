@@ -43,7 +43,7 @@ func main() {
 		ev := termbox.PollEvent()
 		if ev.Type == termbox.EventKey {
 			// KEY EVENTS
-			if ev.Key == termbox.KeyEsc {
+			if ev.Key == termbox.KeyEsc || ev.Ch == 'q' {
 				break
 			} else if ev.Key == termbox.KeySpace {
 				refreshWidgets(desiredStocks, layoutManager)

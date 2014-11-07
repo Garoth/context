@@ -30,8 +30,18 @@ func NewInlineBlockLayout() *InlineBlockLayout {
 }
 
 func (me *InlineBlockLayout) Clear() {
+	pageWidth, pageHeight := termbox.Size()
+	fg, bg := termbox.ColorWhite, termbox.ColorDefault
+
 	me.Widgets = []Widget{}
 	termbox.Clear(termbox.ColorWhite, termbox.ColorDefault)
+
+	for i := 0; i < pageWidth; i++ {
+		for j := 0; j < pageHeight; j++ {
+			termbox.SetCell(i, j, ' ', fg, bg)
+		}
+	}
+
 	termbox.Flush()
 }
 
