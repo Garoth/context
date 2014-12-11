@@ -10,7 +10,7 @@ func refreshWidgets(desiredStocks []string, layoutManager *InlineBlockLayout) {
 		stock := desiredStocks[i]
 		stockInfo, err := NewStockInfo(stock)
 		if err != nil {
-			drawDebugText(err.Error())
+			panic(err)
 		}
 
 		widget := NewStockInfoWidget(stockInfo)
