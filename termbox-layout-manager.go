@@ -82,6 +82,7 @@ func (me *InlineBlockLayout) Add(widget Widget) {
 func (me *InlineBlockLayout) Redraw() {
 	pageWidth, _ := termbox.Size()
 	x, y, currentLineHeight := 0, 0, 0
+	drawDebugText("")
 
 	for _, widgetElement := range me.Widgets {
 		widgetWidth, widgetHeight := widgetElement.Size()
